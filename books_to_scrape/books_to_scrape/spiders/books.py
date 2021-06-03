@@ -32,8 +32,11 @@ class BooksSpider(CrawlSpider):
     #     return request
 
     def parse_item(self, response):
-        print(str(response.url))
-        # yield {
-        #     'link': response.url,
-        #     'user_agent': response.request.headers['User-Agent']
-        # }
+        title = response.xpath("//h1/text()").get()
+        price = response.xpath("//p[@class='price_color']/text()").get()
+        yield {
+            'title': title,
+            'price': price,
+            'link': response.url,
+            'user_agent': response.request.headers['User-Agent']
+        }
